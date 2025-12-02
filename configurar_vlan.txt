@@ -1,0 +1,6 @@
+sudo apt update
+sudo apt install vlan -y
+sudo modprobe 8021q
+sudo ip link add link enp0s3 name enp0s3.10 type vlan id 10
+sudo ip link set up enp0s3.10
+sudo dhclient enp0s3.10
