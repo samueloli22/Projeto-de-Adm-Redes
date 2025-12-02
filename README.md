@@ -7,7 +7,10 @@ Configuração do Firewall (pfSense)O fator chave para a funcionalidade do ambie
 
  topologia: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Topologia.png
 
-    ATENÇAO PARA SE CONECTAR NA VLAN EXECUTE OS CAMANDOS :
+  ATENÇAO PARA SE CONECTAR NA VLAN EXECUTE OS CAMANDOS : https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/configurar_vlan.txt
+  pois o virtual box nao consegue agir como um switch gerenciavel
+
+  
  
 
  
