@@ -11,6 +11,20 @@ Configuração do Firewall (pfSense)O fator chave para a funcionalidade do ambie
   
   pois o virtual box nao consegue agir como um switch gerenciavel
 
+  DHCP 
+
+  O dhcp foi configurado no pf-sense quanto a rede principal e as subredes
+  Adm: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_adm.png
+  Lam: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_lam.png
+  Funcionarios: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_fucionarios.png
+
+  DNS Resolver foi configurado no pf-sense tambem
+  https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dns_resolver.png
+
+
+  
+  
+
   
 
   
