@@ -1,41 +1,92 @@
-Projeto de Infraestrutura de Rede Segmentada com pfSense. 
-Planejamento e Topologia de RedeEste projeto documenta a implementação de uma infraestrutura de rede robusta e segmentada utilizando o firewall/roteador pfSense em ambiente virtualizado. O principal objetivo é isolar o tráfego por função (LAN, Administrativo e Funcionários) e testar a comunicação entre as sub-redes através do roteamento.1.1. Esquema de Segmentação e Endereçamento IPA rede foi dividida em três interfaces principais conectadas ao pfSense:LAN: Rede principal, não tagueada. Utiliza o bloco 192.168.1.0/24 com o Gateway $192.168.1.1$.ADMINISTRATIVO (VLAN 10): Rede tagueada para uso exclusivo da administração. Utiliza o bloco 10.0.0.0/24 com o Gateway $10.0.0.1$.FUNCIONARIOS (VLAN 20): Rede tagueada para uso dos funcionários. Utiliza o bloco 10.0.1.0/24 com o Gateway $10.0.1.1$.1.2. Localização dos ServiçosOs serviços foram distribuídos para validar a comunicação entre as diferentes sub-redes:Servidor Web (NGINX) e Servidor NFS: Foram instalados na Rede LAN (192.168.1.X).Servidor FTP (VSFTPD): Foi instalado na rede ADMINISTRATIVO (10.0.0.X).Os clientes de teste acessam a partir das VLANs $10.0.X.X$.2. 
 
-Configuração do Firewall (pfSense)O fator chave para a funcionalidade do ambiente é o roteamento inter-VLAN realizado pelo pfSense.Regras de Roteamento: Para permitir que os clientes nas sub-redes ($10.0.X.X$) acessem os servidores na LAN ($192.168.1.X$) e se comuniquem entre si, foram aplicadas regras de Permitir Tudo (Pass Any) nas interfaces ADMINISTRATIVO e FUNCIONARIOS.Resultado: Esta configuração garante a conectividade de ponta a ponta, essencial para a validação dos serviços.
+## Projeto de Infraestrutura de Rede Segmentada com pfSense
 
+Este projeto documenta a implementação de uma **infraestrutura de rede robusta e segmentada** utilizando o firewall/roteador **pfSense** em um ambiente virtualizado (VirtualBox).
 
+O objetivo principal é **isolar o tráfego por função** (LAN, Administrativo e Funcionários) e **testar a comunicação inter-VLAN** de forma controlada, garantindo a acessibilidade aos serviços distribuídos.
 
- topologia: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Topologia.png
+---
 
-  ATENÇAO PARA SE CONECTAR NA VLAN EXECUTE OS CAMANDOS: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/configurar_vlan.txt
-  
-  pois o virtual box nao consegue agir como um switch gerenciavel
+## Topologia e Planejamento de Rede
 
-  DHCP 
+A infraestrutura foi planejada com uma abordagem de segmentação para aumentar a segurança e a organização do tráfego.
 
-  O dhcp foi configurado no pf-sense quanto a rede principal e as subredes
-  Adm: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_adm.png
-  Lam: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_lam.png
-  Funcionarios: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_fucionarios.png
+### 1. Esquema de Segmentação e Endereçamento IP
 
-  DNS Resolver foi configurado no pf-sense tambem
-  https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dns_resolver.png
+A rede foi dividida em três interfaces principais conectadas e gerenciadas pelo pfSense, sendo duas delas implementadas como **VLANs** (Redes Locais Virtuais):
 
- Servidor nginx foi feito pelos comandos 
- https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/comandos_nginx.txt
- resultado: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Servidor%20nginx.png
- 
-  
+| Interface | Tipo | VLAN ID | Bloco de Rede (CIDR) | Gateway (pfSense) |
+| :--- | :--- | :--- | :--- | :--- |
+| **LAN** (Principal) | Não Tagueada | N/A | `192.168.1.0/24` | `192.168.1.1` |
+| **ADMINISTRATIVO** | Tagueada | **10** | `10.0.0.0/24` | `10.0.0.1` |
+| **FUNCIONÁRIOS** | Tagueada | **20** | `10.0.1.0/24` | `10.0.1.1` |
+
+> *O pfSense atua como o ponto central de roteamento, gerenciando o tráfego entre todas as sub-redes e as VLANs.*
+
+*Para referência visual da arquitetura:*
 
 
-  
-  
+**Visualização da Topologia Completa:** [Topologia do Projeto](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Topologia.png)
 
-  
+### 2. Localização dos Serviços
 
-  
- 
+Os serviços foram distribuídos em diferentes sub-redes para validar a comunicação e o roteamento inter-VLAN:
 
- 
+* **Rede LAN (`192.168.1.X`):**
+    * Servidor Web (**NGINX**)
+    * Servidor NFS (Network File System)
+* **Rede ADMINISTRATIVO (`10.0.0.X`):**
+    * Servidor FTP (**VSFTPD**)
 
- 
+Os clientes de teste acessam os serviços a partir das redes segmentadas (`10.0.X.X`).
+
+---
+
+## Configuração do Firewall (pfSense)
+
+O **pfSense** é o elemento chave que garante tanto a segurança (segmentação) quanto a funcionalidade (roteamento).
+
+### 1. Configuração de Roteamento (Inter-VLAN)
+
+Para permitir a comunicação necessária entre as sub-redes segmentadas (VLANs) e a rede principal (LAN), foram aplicadas regras de firewall no pfSense.
+
+* **Regras:** Foram configuradas regras de **Permitir Tudo (Pass Any)** nas interfaces **ADMINISTRATIVO** e **FUNCIONÁRIOS**.
+* **Resultado:** Esta configuração garante a **conectividade de ponta a ponta**, permitindo que os clientes nas VLANs (`10.0.X.X`) acessem os servidores localizados na LAN (`192.168.1.X`) e se comuniquem entre si.
+
+### 2. Serviços Essenciais
+
+* **DHCP (Dynamic Host Configuration Protocol):**
+    O serviço DHCP foi configurado no pfSense para as três redes, garantindo a atribuição automática e correta dos endereços IP para cada segmento.
+    * [Configuração DHCP Administradores](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_adm.png)
+    * [Configuração DHCP LAN](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_lam.png)
+    * [Configuração DHCP Funcionários](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dhcp_fucionarios.png)
+
+* **DNS Resolver:**
+    O Resolvedor DNS também foi configurado no pfSense para garantir que a resolução de nomes de domínio funcione corretamente para todas as sub-redes.
+    * [Configuração DNS Resolver](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dns_resolver.png)
+
+---
+
+## Detalhes da Implementação
+
+### 1. Configuração de VLAN no VirtualBox
+
+Devido à limitação do VirtualBox em simular um *switch* gerenciável com suporte nativo a VLANs, foi necessário executar comandos manuais **dentro dos sistemas operacionais clientes** para *taguear* as interfaces de rede corretamente e conectá-los às VLANs.
+
+**ATENÇÃO:** Para que os clientes se conectem corretamente nas VLANs, é necessário **executar os comandos** conforme o guia: [Comandos para Configurar VLAN](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/configurar_vlan.txt)
+
+### 2. Configuração do Servidor Web (NGINX)
+
+O Servidor Web **NGINX** foi instalado na Rede LAN (`192.168.1.X`).
+
+* **Comandos de Instalação:** [Comandos Utilizados para NGINX](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/comandos_nginx.txt)
+* **Resultado da Instalação:** [Página de Teste do Servidor NGINX](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Servidor%20nginx.png)
+
+---
+
+## Desenvolvedores
+
+* Samuel Antunes de Oliveira Gomes
+* Matheus Felipe Bastos Pereira
+
+---
