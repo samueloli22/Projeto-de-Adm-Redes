@@ -1,0 +1,45 @@
+apache 
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl status nginx
+
+sudo mkdir -p /var/www/site_interno
+
+s
+sudo chown -R $USER:$USER /var/www/site_interno
+sudo chmod -R 755 /var/www/site_interno
+
+
+nano /var/www/site_interno/index.html
+sudo nano /etc/nginx/sites-available/site interno
+
+sudo unlink /etc/nginx/sites-enabled/default
+
+
+sudo ln -s /etc/nginx/sites-available/site_interno /etc/nginx/sites-enabled/
+
+
+sudo nginx -t
+
+
+sudo systemctl restart nginx
+<
+!DOCTYPE html>
+<
+<head>
+    <title>Servidor Web Interno - NGINX</title>
+</head>
+<body>
+    <h1>Página de Teste - Redes Internas (pfSense)</h1>
+    <p>Esta página está sendo servida pelo NGINX na rede 10.0.0.x.</p>
+</body>
+</html>
+server {
+    listen 80;
+    server_name 10.0.1.X; # Use o IP real da sua VM (Ex: 10.0.1.2)
+    root /var/www/site_interno;
+    index index.html;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

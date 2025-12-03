@@ -1,0 +1,28 @@
+
+sudo apt update && sudo apt install nfs-kernel-server -y
+sudo mkdir -p /srv/nfs_compartilhamento
+sudo chown nobody:nogroup /srv/nfs_compartilhamento
+sudo chmod 777 /srv/nfs_compartilhamento
+echo "Conteudo do Servidor NFS em 192.168.1.X" | sudo tee /srv/nfs_compartilhamento/server_lan_status.txt
+
+sudo nano /etc/exports
+dentro do nano /srv/nfs_compartilhamento 10.0.0.0/24(rw,sync,no_subtree_check) 10.0.1.0/24(rw,sync,no_subtree_check)
+
+
+sudo ufw allow nfs
+sudo exportfs -a
+sudo systemctl restart nfs-kernel-server
+
+
+sudo apt update
+sudo apt install nfs-common -y
+sudo mkdir -p /mnt/servidor_lan
+
+
+sudo mount 192.168.1.X:/srv/nfs_compartilhamento /mnt/servidor_lan
+
+
+ls /mnt/servidor_lan
+
+
+sudo touch /mnt/servidor_lan/cliente_teste_vlan.txt
