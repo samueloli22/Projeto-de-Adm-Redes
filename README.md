@@ -21,6 +21,12 @@ Configuração do Firewall (pfSense)O fator chave para a funcionalidade do ambie
   DNS Resolver foi configurado no pf-sense tambem
   https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/dns_resolver.png
 
+ Servidor nginx foi feito pelos comandos 
+ https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/comandos_nginx.txt
+ resultado: https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Servidor%20nginx.png
+ 
+  
+
 
   
   
