@@ -32,10 +32,10 @@ A rede foi dividida em três interfaces principais conectadas e gerenciadas pelo
 
 Os serviços foram distribuídos em diferentes sub-redes para validar a comunicação e o roteamento inter-VLAN:
 
-* **Rede LAN (`192.168.1.X`):**
+* **Rede LAN (`192.168.1.1`):**
     * Servidor Web (**NGINX**)
     * Servidor NFS (Network File System)
-* **Rede ADMINISTRATIVO (`10.0.0.X`):**
+* **Rede ADMINISTRATIVO (`192.168.1.2`):**
     * Servidor FTP (**VSFTPD**)
 
 Os clientes de teste acessam os serviços a partir das redes segmentadas (`10.0.X.X`).
@@ -77,7 +77,7 @@ Devido à limitação do VirtualBox em simular um *switch* gerenciável com supo
 
 ### 2. Configuração do Servidor Web (NGINX)
 
-O Servidor Web **NGINX** foi instalado na Rede LAN (`192.168.1.X`).
+O Servidor Web **NGINX** foi instalado na Rede LAN (`192.168.1.2`).
 
 * **Comandos de Instalação:** [Comandos Utilizados para NGINX](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/comandos_nginx.txt)
 * **Resultado da Instalação:** [Página de Teste do Servidor NGINX](https://github.com/samueloli22/Projeto-de-Adm-Redes/blob/main/Servidor%20nginx.png)
